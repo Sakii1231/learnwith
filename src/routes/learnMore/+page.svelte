@@ -10,6 +10,7 @@ let student_selected_course_1 = 'Frontend';
 let student_selected_course_2 = 'Backend';
 let student_selected_course_3 = 'AI/ML';
 let student_details = '';
+let phone_number = '';
 
 function show(){
     console.log(student_name, student_email, student_selected_course_1, student_details)
@@ -29,6 +30,8 @@ function show(){
 
   <div class="grid grid-cols-1 gap-7 place-items-center m-8 p-6">
 
+    <h1  class="font-bold text-xl md:text-2xl mb-4">Register with us</h1>
+
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
         <Label for="Name">Name *</Label>
         <Input bind:value="{student_name}" type="text" id="name" name='name' placeholder="Full name" required/>
@@ -37,6 +40,11 @@ function show(){
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
         <Label for="Email">Email *</Label>
         <Input bind:value="{student_email}" type="email" id="email" name='email' placeholder="Email address" />
+    </div>
+
+    <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
+        <Label for="Email">Phone number *</Label>
+        <Input bind:value="{phone_number}" type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Phone number" />
     </div>
 
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
@@ -63,7 +71,7 @@ function show(){
         </div>
     </div>
 
-    <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5 mt-3">
+    <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5 mt-3 -mb-10">
         <Label for="message">Details</Label>
         <p class="text-xs text-muted-foreground">Optional, your messege will be forwarded to the team</p>
         <Textarea bind:value="{student_details}" name="message" required  placeholder="Type your message here."></Textarea>
