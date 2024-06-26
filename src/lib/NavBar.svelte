@@ -13,7 +13,7 @@
   
   <nav class="shadow-md py-4 px-6 flex justify-between items-center ">
     <ul class="md:flex space-x-6">
-      <li><a href="/" class="text-xl font-bold md:text-2xl lg:text-3xl">companyco.</a></li>
+      <li><a href="/" class="text-xl font-bold md:text-2xl lg:text-3xl text-my_gray">companyco.</a></li>
     </ul>
     
     <div class="flex items-center md:hidden">
