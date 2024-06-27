@@ -25,7 +25,7 @@
         {#if showMenu}
         <!-- Close Icon -->
         <svg
-          class="h-6 w-6"
+          class="h-6 w-6 dark:stroke-white"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -43,7 +43,7 @@
       {:else}
         <!-- Hamburger Icon -->
         <svg
-          class="h-6 w-6"
+          class="h-6 w-6 dark:text-white"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -60,17 +60,20 @@
         </svg>
       {/if}
       </button>
+      <div class="ml-6">
+        <ToggleTh></ToggleTh>
+      </div>
     </div>
-    <ul class="hidden md:flex space-x-8">
-      <li><a href="work" class="md:text-lg lg:text-2xl">Work</a></li>
-      <li><a href="contact" class="md:text-lg lg:text-2xl">Contact</a></li>
-      <ToggleTh></ToggleTh>
-    </ul>
+      <ul class="hidden md:flex space-x-8">
+        <li><a href="work" class="md:text-lg lg:text-2xl">Work</a></li>
+        <li><a href="contact" class="md:text-lg lg:text-2xl">Contact</a></li>
+        <ToggleTh></ToggleTh>
+      </ul>
   </nav>
   
   {#if showMenu}
     <div class="md:hidden" transition:slide={{ delay: 0, duration: 300, easing: quintOut, axis: 'y' }}>
-      <ul class="bg-white shadow-md py-4 px-6 space-y-4">
+      <ul class="shadow-md py-4 px-6 space-y-4">
         <li><a href="work" class="text-lg font-[300] block">Work</a></li>
         <li><a href="contact" class="text-lg font-[300] block">Contact</a></li>
       </ul>
