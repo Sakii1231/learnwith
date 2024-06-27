@@ -3,13 +3,16 @@ import { Input } from "$lib/components/ui/input";
 import { Label } from "$lib/components/ui/label";
 import { Textarea } from "$lib/components/ui/textarea";
 import MyBtn from "$lib/MyBtn.svelte";
-import { PUBLIC_SUCCESS_PAGE, PUBLIC_WEB3_FORM_KEY } from '$env/static/public';
+import { PUBLIC_SUCCESS_PAGE, PUBLIC_WEB3_FORM_KEY, PUBLIC_ACCESS } from '$env/static/public';
+import { onMount } from 'svelte';
+import { saveToken, getToken, clearToken } from '$db/token';
+import { mongo_insert_one_post } from '$db/mongo_insert';
 
 let student_name = '';
 let student_email = '';
+let phone_number = '';
 let student_selected_course = '';
 let student_details = '';
-let phone_number = '';
 
 interface Student_schema {
     name: string
@@ -19,6 +22,25 @@ interface Student_schema {
     details: string
     created_at: Date
 }
+
+async function mongo_post(){
+    const student1:Student_schema = {
+    name: student_name,
+    email: student_email,
+    phone: phone_number,
+    course: student_selected_course,
+    details: student_details,
+    created_at: new Date()
+    }
+    token = await getValidToken();
+    console.log(student1)
+    mongo_insert_one_post(token, student1)
+}
+
+function handleClick() {
+    console.log('handle')
+    alert('Button clicked!');
+  }
 
 function onChange(event) {
     student_selected_course = event.currentTarget.value;
@@ -48,6 +70,65 @@ async function write_to_db(){
       console.error('Error:', error);
     }
 }
+
+
+
+// for access token
+let token;
+
+async function fetchToken() {
+const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+const raw = JSON.stringify({
+    "key": PUBLIC_ACCESS
+});
+
+const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+};
+
+try {
+    const response = await fetch("https://services.cloud.mongodb.com/api/client/v2.0/app/data-ufwomfe/auth/providers/api-key/login", requestOptions);
+    const result = await response.json();
+    
+    // Assuming the token is in the 'access_token' field
+    const accessToken = result.access_token;
+    
+    // Set token expiration time to 29 minutes from now
+    const expiryTime = Date.now() + (29 * 60 * 1000);
+    
+    // Save token and expiration time to localStorage
+    saveToken(accessToken, expiryTime);
+    console.log('fetched new token:', accessToken)
+    
+    return accessToken;
+} catch (error) {
+    console.error('Error fetching token:', error);
+}
+}
+
+async function getValidToken() {
+const tokenData = getToken();
+const currentTime = Date.now();
+
+if (tokenData && currentTime < tokenData.expiry) {
+    console.log('Using cached token:', tokenData.token);
+    return tokenData.token;
+} else {
+    return await fetchToken();
+}
+}
+
+onMount(async () => {
+token = await getValidToken();
+console.log('Token:', token);
+});
+
+// end for access
 
 </script>
 
@@ -121,7 +202,7 @@ async function write_to_db(){
        Make sure you add full URL including https:// -->
     <input type="hidden" name="redirect" value={PUBLIC_SUCCESS_PAGE}>
 
-    <MyBtn type='submit' label="Submit Form" onClick='' myColor='bg-my_yellow'></MyBtn>
+    <MyBtn type='submit' label="Submit Form" onClick={mongo_post} myColor='bg-my_yellow'></MyBtn>
   </div>
 
 </form>
