@@ -1,22 +1,52 @@
-<script>
+<script lang='ts'>
 import { Input } from "$lib/components/ui/input";
 import { Label } from "$lib/components/ui/label";
 import { Textarea } from "$lib/components/ui/textarea";
 import MyBtn from "$lib/MyBtn.svelte";
-import { PUBLIC_SUCCESS_PAGE } from '$env/static/public';
+import { PUBLIC_SUCCESS_PAGE, PUBLIC_WEB3_FORM_KEY } from '$env/static/public';
 
 let student_name = '';
 let student_email = '';
-let student_selected_course_1 = 'Frontend';
-let student_selected_course_2 = 'Backend';
-let student_selected_course_3 = 'AI/ML';
+let student_selected_course = '';
 let student_details = '';
 let phone_number = '';
 
-console.log(PUBLIC_SUCCESS_PAGE)
+interface Student_schema {
+    name: string
+    email: string
+    phone: string
+    course: string
+    details: string
+    created_at: Date
+}
 
-function show(){
-    console.log(student_name, student_email, student_selected_course_1, student_details)
+function onChange(event) {
+    student_selected_course = event.currentTarget.value;
+	}
+
+async function write_to_db(){
+    const student1:Student_schema = {
+    name: student_name,
+    email: student_email,
+    phone: phone_number,
+    course: student_selected_course,
+    details: student_details,
+    created_at: new Date()
+    }
+    try {
+      const response = await fetch('/api/student', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(student1),
+      });
+
+      const result = await response.json();
+      console.log(result)
+    } catch (error) {
+      console.error('Error:', error);
+    }
 }
 
 </script>
@@ -24,7 +54,8 @@ function show(){
 
 
 <form action="https://api.web3forms.com/submit" method="POST">
-    <input type="hidden" name="access_key" value='3a223ac4-d7ab-481a-aee1-029a95e9e510'>
+<!-- <form>    -->
+<input type="hidden" name="access_key" value={PUBLIC_WEB3_FORM_KEY}>
 
   <div class="grid grid-cols-1 gap-7 place-items-center m-8 p-6">
 
@@ -52,18 +83,18 @@ function show(){
         <div class="flex justify-between max-w-xs md:max-w-sm gap-9 h-12 mt-2">
 
             <div class="grid grid-cols-1 gap-1 place-items-center">
-                <Input bind:value="{student_selected_course_1}" type="radio" id="Frontend" name="selected_course"/>
+                <Input checked={student_selected_course==='Frontend'} on:change={onChange} value='Frontend' type="radio" id="Frontend" name="selected_course"/>
                 <Label for="Frontend">Frontend</Label><br>
             </div>
 
             <div class="grid grid-cols-1 gap-1 place-items-center">
-                <Input bind:value="{student_selected_course_2}" type="radio" id="Backend" name="selected_course"/>
+                <Input checked={student_selected_course==='Backend'} on:change={onChange} value='Backend' type="radio" id="Backend" name="selected_course"/>
                 <Label for="Backend">Backend</Label><br>
             </div>
 
 
             <div class="grid grid-cols-1 gap-1 place-items-center">
-                <Input bind:value="{student_selected_course_3}" type="radio" id="AI/ML" name="selected_course"/>
+                <Input checked={student_selected_course==='AI/ML'} on:change={onChange} value='AI/ML' type="radio" id="AI/ML" name="selected_course"/>
                 <Label for="AI/ML">AI/ML</Label><br>
             </div>
         </div>
@@ -71,14 +102,14 @@ function show(){
 
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5 mt-3 -mb-10">
         <Label for="message">Details</Label>
-        <p class="text-xs text-muted-foreground">Optional, your messege will be forwarded to the team</p>
+        <p class="text-xs text-muted-foreground">Optional, your message will be forwarded to the team</p>
         <Textarea bind:value="{student_details}" name="message" required  placeholder="Type your message here."></Textarea>
     </div>
 
 
  <!-- Optional: From Name you want to see in the email
        Default is "Notifications". you can overwrite here -->
-    <input type="hidden" name="from_name" value="Your Website Name">
+    <input type="hidden" name="from_name" value="companyco">
 
     <!-- Honeypot Spam Protection -->
     <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
@@ -90,7 +121,7 @@ function show(){
        Make sure you add full URL including https:// -->
     <input type="hidden" name="redirect" value={PUBLIC_SUCCESS_PAGE}>
 
-    <MyBtn type='submit' label="Submit Form" onClick={show} myColor='bg-my_yellow'></MyBtn>
+    <MyBtn type='submit' label="Submit Form" onClick={write_to_db} myColor='bg-my_yellow'></MyBtn>
   </div>
 
 </form>

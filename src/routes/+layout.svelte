@@ -4,8 +4,8 @@ import NavBar from "$lib/NavBar.svelte";
 import img from '$lib/svg/backk.png';
 import { json } from "@sveltejs/kit"
 
-export let data;
-const list1 = (data.items)
+// export let data;
+// const list1 = (data.items)
 </script>
 
 <svelte:head>
