@@ -121,7 +121,7 @@ async function write_to_db(){
        Make sure you add full URL including https:// -->
     <input type="hidden" name="redirect" value={PUBLIC_SUCCESS_PAGE}>
 
-    <MyBtn type='submit' label="Submit Form" onClick={write_to_db} myColor='bg-my_yellow'></MyBtn>
+    <MyBtn type='submit' label="Submit Form" onClick='' myColor='bg-my_yellow'></MyBtn>
   </div>
 
 </form>

@@ -1,6 +1,6 @@
-import { connect } from "$db/mongo";
+// import { connect } from "$db/mongo";
 
-connect()
-.then(() => {
-    console.log('Mongo started!!')
-})
+// connect()
+// .then(() => {
+//     console.log('Mongo started!!')
+// })
