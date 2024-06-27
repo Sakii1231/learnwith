@@ -7,6 +7,7 @@ import { PUBLIC_SUCCESS_PAGE, PUBLIC_WEB3_FORM_KEY, PUBLIC_ACCESS } from '$env/s
 import { onMount } from 'svelte';
 import { saveToken, getToken, clearToken } from '$db/token';
 import { mongo_insert_one_post } from '$db/mongo_insert';
+import { md5,checkHash } from '$lib/utils'
 
 let student_name = '';
 let student_email = '';
@@ -21,26 +22,28 @@ interface Student_schema {
     course: string
     details: string
     created_at: Date
+    email_hash: string
 }
 
 async function mongo_post(){
     const student1:Student_schema = {
     name: student_name,
-    email: student_email,
+    email: student_email.toLowerCase(),
     phone: phone_number,
     course: student_selected_course,
     details: student_details,
-    created_at: new Date()
+    created_at: new Date(),
+    email_hash: md5(student_email)
     }
-    token = await getValidToken();
-    console.log(student1)
-    mongo_insert_one_post(token, student1)
-}
+    if (student_name === '' || student_email === '' || phone_number === '' || student_selected_course === '') {
+        alert('Please make sure to fill all mandatory(*) fields.')
+    }
+    else {
+        token = await getValidToken();
+        mongo_insert_one_post(token, student1)
+    }
 
-function handleClick() {
-    console.log('handle')
-    alert('Button clicked!');
-  }
+}
 
 function onChange(event) {
     student_selected_course = event.currentTarget.value;
@@ -184,7 +187,7 @@ console.log('Token:', token);
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5 mt-3 -mb-10">
         <Label for="message">Details</Label>
         <p class="text-xs text-muted-foreground">Optional, your message will be forwarded to the team</p>
-        <Textarea bind:value="{student_details}" name="message" required  placeholder="Type your message here."></Textarea>
+        <Textarea bind:value="{student_details}" name="message"  placeholder="Type your message here."></Textarea>
     </div>
 
 

@@ -17,7 +17,7 @@
     <div class="mt-20 lg:mt-40">
         <h1 class="font-extrabold text-2xl text-center text-my_gray md:text-3xl lg:text-4xl xl:text-4xl 2xl:text-5xl ">You're registered 🎉</h1>
         <h1 class="font-extrabold text-2xl text-center text-my_gray md:text-3xl lg:text-4xl xl:text-4xl 2xl:text-5xl"></h1>
-        <h1 class="text-center text-xs font-light md:font-normal lg:font-medium text-my_gray p-6 md:text-sm lg:text-md">Thank you for registering with us. We will be sending you additional details about the course in the email that you have provided.</h1>
+        <h1 class="text-center text-xs font-light md:font-normal lg:font-medium text-my_gray p-6 md:text-sm lg:text-md">Thank you for signing up with us. We will be sending you additional details about the course in the email that you have provided.</h1>
         <div class="flex justify-center">
             <MyBtn type='' label="Back to home" onClick={handgotohomeClick} myColor='bg-my_yellow'></MyBtn>
         </div>
