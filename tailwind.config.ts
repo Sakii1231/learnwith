@@ -22,6 +22,7 @@ const config: Config = {
 				my_blue: '#a6dced',
 				my_black: '#231f20',
 				my_gray: '#1f2937',
+				my_stone: '#292524',
 				border: "hsl(var(--border) / <alpha-value>)",
 				input: "hsl(var(--input) / <alpha-value>)",
 				ring: "hsl(var(--ring) / <alpha-value>)",

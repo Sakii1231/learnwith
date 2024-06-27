@@ -2,7 +2,7 @@
 import { Input } from "$lib/components/ui/input";
 import { Label } from "$lib/components/ui/label";
 import { Textarea } from "$lib/components/ui/textarea";
-import MyBtn from "$lib/MyBtn.svelte";
+import MyBtn from "$lib/components/MyBtn.svelte";
 import { PUBLIC_SUCCESS_PAGE, PUBLIC_WEB3_FORM_KEY, PUBLIC_ACCESS } from '$env/static/public';
 import { onMount } from 'svelte';
 import { saveToken, getToken, clearToken } from '$db/token';
@@ -143,7 +143,7 @@ console.log('Token:', token);
 
   <div class="grid grid-cols-1 gap-7 place-items-center m-8 p-6">
 
-    <h1  class="font-bold text-xl md:text-2xl mb-4 text-my_gray">Register with us</h1>
+    <h1  class="font-bold text-xl md:text-2xl mb-4 ">Register with us</h1>
 
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
         <Label for="Name">Name *</Label>

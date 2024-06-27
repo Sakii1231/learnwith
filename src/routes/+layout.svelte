@@ -1,9 +1,8 @@
 <script>
 import "../app.css";
-import NavBar from "$lib/NavBar.svelte";
+import NavBar from "$lib/components/NavBar.svelte";
 import img from '$lib/svg/backk.png';
-import { json } from "@sveltejs/kit"
-
+import { ModeWatcher } from "mode-watcher";
 // export let data;
 // const list1 = (data.items)
 </script>
@@ -18,6 +17,7 @@ import { json } from "@sveltejs/kit"
   }
 </style>
 
+<ModeWatcher />
 <div class="w-screen h-screen bg-no-repeat bg-center bg-cover" style="background-image: url({img});">
     <NavBar></NavBar>
 <slot />
