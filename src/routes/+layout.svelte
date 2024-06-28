@@ -8,7 +8,6 @@ import { ModeWatcher } from "mode-watcher";
 </script>
 
 
-
 <ModeWatcher />
 <div class="w-screen h-screen bg-no-repeat bg-center bg-cover" style="background-image: url({img});">
     <NavBar></NavBar>

@@ -9,12 +9,18 @@ import { saveToken, getToken, clearToken } from '$db/token';
 import { mongo_insert_one_post } from '$db/mongo_insert';
 import { md5,checkHash } from '$lib/utils'
 import * as RadioGroup from "$lib/components/ui/radio-group";
+import { Progress } from "$lib/components/ui/progress";
 
 let student_name = '';
 let student_email = '';
 let phone_number = '';
 let student_selected_course = '';
 let student_details = '';
+
+//for progress bar
+let value = 17;
+let hidden = 'hidden';
+
 
 interface Student_schema {
     name: string
@@ -40,6 +46,7 @@ async function mongo_post(){
         alert('Please make sure to fill all mandatory(*) fields.')
     }
     else {
+        progress_bar()
         token = await getValidToken();
         mongo_insert_one_post(token, student1)
     }
@@ -107,7 +114,7 @@ try {
     
     // Save token and expiration time to localStorage
     saveToken(accessToken, expiryTime);
-    console.log('fetched new token:', accessToken)
+    console.log('fetched new token')
     
     return accessToken;
 } catch (error) {
@@ -120,7 +127,7 @@ const tokenData = getToken();
 const currentTime = Date.now();
 
 if (tokenData && currentTime < tokenData.expiry) {
-    console.log('Using cached token:', tokenData.token);
+    console.log('Using cached token');
     return tokenData.token;
 } else {
     return await fetchToken();
@@ -129,12 +136,20 @@ if (tokenData && currentTime < tokenData.expiry) {
 
 onMount(async () => {
 token = await getValidToken();
-console.log('Token:', token);
+console.log('Got Token');
 });
 
 // end for access
 
+function progress_bar() {
+    hidden = ''
+    let timer = setTimeout(() => (value = 56), 1000);
+    timer = setTimeout(() => (value = 85), 1600);
+    return () => clearTimeout(timer);
+}
+
 function log_to_console() {
+    progress_bar()
     console.log(student_selected_course)
 }
 
@@ -146,7 +161,7 @@ function log_to_console() {
 <!-- <form>    -->
 <input type="hidden" name="access_key" value={PUBLIC_WEB3_FORM_KEY}>
 
-  <div class="grid grid-cols-1 gap-7 place-items-center m-8 p-6 relative">
+  <div class="grid grid-cols-1 gap-7 place-items-center m-2 p-6 relative">
 
     <h1  class="font-bold text-xl md:text-2xl mb-4 ">Register with us</h1>
 
@@ -157,12 +172,12 @@ function log_to_console() {
 
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
         <Label for="Email">Email *</Label>
-        <Input bind:value="{student_email}" type="email" id="email" name='email' placeholder="Email address" />
+        <Input bind:value="{student_email}" type="email" id="email" name='email' placeholder="Email address" required/>
     </div>
 
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
         <Label for="Email">Phone number *</Label>
-        <Input bind:value="{phone_number}" type="tel" id="phone" name="phone" placeholder="Phone number" />
+        <Input bind:value="{phone_number}" type="tel" id="phone" name="phone" placeholder="Phone number" required/>
     </div>
 
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-2">
@@ -184,7 +199,7 @@ function log_to_console() {
     </div>
 
     <!-- bind valur for web3 forms -->
-    <input bind:value="{student_selected_course}" type="text" name="selected_course" class='hidden'>
+    <input bind:value="{student_selected_course}" type="text" name="selected_course" class='hidden' required>
 
 
     <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
@@ -207,7 +222,8 @@ function log_to_console() {
        Make sure you add full URL including https:// -->
     <input type="hidden" name="redirect" value={PUBLIC_SUCCESS_PAGE}>
 
-    <MyBtn type='submit' label="Submit Form" onClick={mongo_post} myColor='bg-my_yellow' tailwind_utils='px-20 -mt-5'></MyBtn>
+    <MyBtn type='submit' label="Submit Form" onClick={mongo_post} myColor='bg-my_yellow' tailwind_utils='px-20 -mt-5 -mb-2'></MyBtn>
+    <Progress {value} max={100} class="max-w-sm {hidden} " />
   </div>
 
 </form>
