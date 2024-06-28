@@ -3,11 +3,12 @@
     export let onClick;
     export let myColor;
     export let type;
+    export let tailwind_utils;
   </script>
 
 <div class="grid grid-cols-1 grid-rows-1">
-            <button type={type} id="animated-text" on:click={onClick} class="rounded-lg p-3 {myColor} m-6 col-start-1 row-start-1 font-semibold z-10 text-my_gray text-xs md:text-lg">{label}</button>
-            <button class=" rounded-lg p-3 bg-foreground dark:bg-slate-800 m-6 col-start-1 transform translate-x-1 translate-y-1 font-semibold row-start-1  text-xs lg:text-lg">{label}</button>
+<button type={type} id="animated-text" on:click={onClick} class="rounded-lg p-3 {myColor} m-6 col-start-1 row-start-1 font-semibold z-10 text-my_gray text-xs md:text-lg {tailwind_utils}">{label}</button>
+<button class=" rounded-lg p-3 bg-foreground dark:bg-slate-800 m-6 col-start-1 transform translate-x-1 translate-y-1 font-semibold row-start-1  text-xs lg:text-lg {tailwind_utils}">{label}</button>
 </div>
 
 <style>

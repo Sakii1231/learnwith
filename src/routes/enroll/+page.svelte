@@ -8,6 +8,7 @@ import { onMount } from 'svelte';
 import { saveToken, getToken, clearToken } from '$db/token';
 import { mongo_insert_one_post } from '$db/mongo_insert';
 import { md5,checkHash } from '$lib/utils'
+import * as RadioGroup from "$lib/components/ui/radio-group";
 
 let student_name = '';
 let student_email = '';
@@ -133,6 +134,10 @@ console.log('Token:', token);
 
 // end for access
 
+function log_to_console() {
+    console.log(student_selected_course)
+}
+
 </script>
 
 
@@ -141,7 +146,7 @@ console.log('Token:', token);
 <!-- <form>    -->
 <input type="hidden" name="access_key" value={PUBLIC_WEB3_FORM_KEY}>
 
-  <div class="grid grid-cols-1 gap-7 place-items-center m-8 p-6">
+  <div class="grid grid-cols-1 gap-7 place-items-center m-8 p-6 relative">
 
     <h1  class="font-bold text-xl md:text-2xl mb-4 ">Register with us</h1>
 
@@ -160,36 +165,33 @@ console.log('Token:', token);
         <Input bind:value="{phone_number}" type="tel" id="phone" name="phone" placeholder="Phone number" />
     </div>
 
-    <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
-        <Label for="Name">Choose a course *</Label>
-        <p class="text-xs text-muted-foreground">Mention in deails if you wish to choose more than one</p>
-
-        <div class="flex justify-between max-w-xs md:max-w-sm gap-9 h-12 mt-2">
-
-            <div class="grid grid-cols-1 gap-1 place-items-center">
-                <Input checked={student_selected_course==='Frontend'} on:change={onChange} value='Frontend' type="radio" id="Frontend" name="selected_course"/>
-                <Label for="Frontend">Frontend</Label><br>
+    <div class="grid w-full max-w-xs md:max-w-sm items-center gap-2">
+        <Label for="Email">Select a course *</Label>
+        <RadioGroup.Root bind:value={student_selected_course}>
+            <div class="flex items-center space-x-2">
+              <RadioGroup.Item value="Frontend" id="Frontend" />
+              <Label for="Frontend">Frontend</Label>
             </div>
-
-            <div class="grid grid-cols-1 gap-1 place-items-center">
-                <Input checked={student_selected_course==='Backend'} on:change={onChange} value='Backend' type="radio" id="Backend" name="selected_course"/>
-                <Label for="Backend">Backend</Label><br>
-            </div>
-
-
-            <div class="grid grid-cols-1 gap-1 place-items-center">
-                <Input checked={student_selected_course==='AI/ML'} on:change={onChange} value='AI/ML' type="radio" id="AI/ML" name="selected_course"/>
-                <Label for="AI/ML">AI/ML</Label><br>
-            </div>
-        </div>
+            <div class="flex items-center space-x-2">
+                <RadioGroup.Item value="Backend" id="Backend" />
+                <Label for="Backend">Backend</Label>
+              </div>
+            <div class="flex items-center space-x-2">
+                <RadioGroup.Item value="AI/ML" id="AI/ML" />
+                <Label for="AI/ML">AI/ML</Label>
+              </div>
+          </RadioGroup.Root>
     </div>
 
-    <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5 mt-3 -mb-10">
+    <!-- bind valur for web3 forms -->
+    <input bind:value="{student_selected_course}" type="text" name="selected_course" class='hidden'>
+
+
+    <div class="grid w-full max-w-xs md:max-w-sm items-center gap-1.5">
         <Label for="message">Details</Label>
         <p class="text-xs text-muted-foreground">Optional, your message will be forwarded to the team</p>
         <Textarea bind:value="{student_details}" name="message"  placeholder="Type your message here."></Textarea>
     </div>
-
 
  <!-- Optional: From Name you want to see in the email
        Default is "Notifications". you can overwrite here -->
@@ -205,7 +207,7 @@ console.log('Token:', token);
        Make sure you add full URL including https:// -->
     <input type="hidden" name="redirect" value={PUBLIC_SUCCESS_PAGE}>
 
-    <MyBtn type='submit' label="Submit Form" onClick={mongo_post} myColor='bg-my_yellow'></MyBtn>
+    <MyBtn type='submit' label="Submit Form" onClick={mongo_post} myColor='bg-my_yellow' tailwind_utils='px-20 -mt-5'></MyBtn>
   </div>
 
 </form>
