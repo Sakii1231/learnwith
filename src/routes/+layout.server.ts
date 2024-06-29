@@ -29,12 +29,8 @@
 // // time_diff = secondTime - firstTime
 // // console.log(time_diff)
 
-
-
 // // const serialized_all_items = all_items.map((item) => JSON.stringify(item,(key,value) => key === '_id'? value.toString(value): value))
 // // console.log(serialized_all_items)
-
-
 
 // const db = client.db('students')
 // const collection = db.collection('student_details')
@@ -62,14 +58,12 @@
 //     email_hash: ''
 // }
 
-
 // /** NORMAL words **/
 // const value = student1.email
 
 // const hash = md5(value)
 
 // student1.email_hash = hash
-
 
 // console.log(hash)
 
@@ -80,8 +74,6 @@
 //     "email": "ksakshat8@gmail.com",
 //     "phone": 2342367
 // }
-
-
 
 // // collection.insertOne(details)
 

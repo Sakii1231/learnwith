@@ -6,6 +6,6 @@ export const client = new MongoClient(MONGO_URI);
 
 // connect to the database
 export async function connect(): Promise<void> {
-    console.log('Starting mongo...')
-    await client.connect();
+	console.log('Starting mongo...');
+	await client.connect();
 }
